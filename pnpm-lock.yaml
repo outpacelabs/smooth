@@ -10,7 +10,7 @@ importers:
     dependencies:
       '@outpacelabs/audio':
         specifier: github:outpacelabs/audio#path:packages/audio
-        version: https://codeload.github.com/outpacelabs/audio/tar.gz/3dec8216897e1497307dec4ed382471926f895a0#path:packages/audio(react@19.2.4)
+        version: https://codeload.github.com/outpacelabs/audio/tar.gz/122380f1eb06ab6c60d7dce30f3afe421b9fd2b0#path:packages/audio(react@19.2.4)
       '@outpacelabs/smooth':
         specifier: workspace:*
         version: link:packages/smooth
@@ -439,8 +439,8 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@outpacelabs/audio@https://codeload.github.com/outpacelabs/audio/tar.gz/3dec8216897e1497307dec4ed382471926f895a0#path:packages/audio':
-    resolution: {path: packages/audio, tarball: https://codeload.github.com/outpacelabs/audio/tar.gz/3dec8216897e1497307dec4ed382471926f895a0}
+  '@outpacelabs/audio@https://codeload.github.com/outpacelabs/audio/tar.gz/122380f1eb06ab6c60d7dce30f3afe421b9fd2b0#path:packages/audio':
+    resolution: {path: packages/audio, tarball: https://codeload.github.com/outpacelabs/audio/tar.gz/122380f1eb06ab6c60d7dce30f3afe421b9fd2b0}
     version: 0.5.0
     peerDependencies:
       react: '>=18'
@@ -1479,7 +1479,7 @@ snapshots:
   '@next/swc-win32-x64-msvc@16.2.6':
     optional: true
 
-  '@outpacelabs/audio@https://codeload.github.com/outpacelabs/audio/tar.gz/3dec8216897e1497307dec4ed382471926f895a0#path:packages/audio(react@19.2.4)':
+  '@outpacelabs/audio@https://codeload.github.com/outpacelabs/audio/tar.gz/122380f1eb06ab6c60d7dce30f3afe421b9fd2b0#path:packages/audio(react@19.2.4)':
     optionalDependencies:
       react: 19.2.4
 
