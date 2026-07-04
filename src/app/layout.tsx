@@ -16,8 +16,34 @@ const DESCRIPTION =
 	"Configure Figma/Apple-style smoothed corners and copy the code. The circular arc keeps your radius; only the edge transition softens. Free and open source by Outpace Studios.";
 
 export const metadata: Metadata = {
+	metadataBase: new URL("https://smooth.outpacestudios.com"),
 	title: TITLE,
 	description: DESCRIPTION,
+	alternates: { canonical: "/" },
+	openGraph: {
+		type: "website",
+		locale: "en_US",
+		url: "https://smooth.outpacestudios.com",
+		siteName: "@outpacelabs/squircle",
+		title: TITLE,
+		description: DESCRIPTION,
+		images: [
+			{
+				url: "/og.jpg",
+				width: 1200,
+				height: 630,
+				alt: "@outpacelabs/squircle, by Outpace Studios",
+			},
+		],
+	},
+	twitter: {
+		card: "summary_large_image",
+		title: TITLE,
+		description: DESCRIPTION,
+		images: ["/og.jpg"],
+		site: "@outpacestudios",
+		creator: "@outpacestudios",
+	},
 	applicationName: "@outpacelabs/squircle",
 	authors: [{ name: "Outpace Studios", url: "https://outpacestudios.com" }],
 	creator: "Outpace Studios",
