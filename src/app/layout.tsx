@@ -11,7 +11,7 @@ const inter = Inter({
 	variable: "--font-display",
 });
 
-const TITLE = "Squircle | Corner smoothing that keeps your radius";
+const TITLE = "Smooth | Corner smoothing that keeps your radius";
 const DESCRIPTION =
 	"Configure Figma/Apple-style smoothed corners and copy the code. The circular arc keeps your radius; only the edge transition softens. Free and open source by Outpace Studios.";
 
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
 		type: "website",
 		locale: "en_US",
 		url: "https://smooth.outpacestudios.com",
-		siteName: "@outpacelabs/squircle",
+		siteName: "@outpacelabs/smooth",
 		title: TITLE,
 		description: DESCRIPTION,
 		images: [
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
 				url: "/og.jpg",
 				width: 1200,
 				height: 630,
-				alt: "@outpacelabs/squircle, by Outpace Studios",
+				alt: "@outpacelabs/smooth, by Outpace Studios",
 			},
 		],
 	},
@@ -44,7 +44,7 @@ export const metadata: Metadata = {
 		site: "@outpacestudios",
 		creator: "@outpacestudios",
 	},
-	applicationName: "@outpacelabs/squircle",
+	applicationName: "@outpacelabs/smooth",
 	authors: [{ name: "Outpace Studios", url: "https://outpacestudios.com" }],
 	creator: "Outpace Studios",
 	publisher: "Outpace Studios",

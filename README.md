@@ -1,4 +1,4 @@
-<h1 align="center">squircle</h1>
+<h1 align="center">smooth</h1>
 
 <p align="center">
   Figma-style corner smoothing (Apple squircles) that keeps your corner radius.
@@ -8,7 +8,7 @@
 
 | Path | What |
 |------|------|
-| [`packages/squircle`](./packages/squircle) | **`@outpacelabs/squircle`**, the published package: path generator + React hook. |
+| [`packages/smooth`](./packages/smooth) | **`@outpacelabs/smooth`**, the published package: path generator + React hook. |
 | [`src`](./src) | The Next.js configurator site: tune radius/smoothing, compare against plain `border-radius`, copy the code. |
 
 ## Local development

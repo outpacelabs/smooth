@@ -6,7 +6,7 @@ import { SmoothContent } from "./content";
 const SNIPPETS = {
 	generator: {
 		lang: "ts",
-		code: `import { squirclePath } from "@outpacelabs/squircle";
+		code: `import { squirclePath } from "@outpacelabs/smooth";
 
 // SVG path data in border-box pixels. smoothing 0 to 1; 0.6 = Apple.
 const d = squirclePath({ width: 320, height: 200, radius: 20, smoothing: 0.6 });
@@ -15,7 +15,7 @@ element.style.clipPath = \`path("\${d}")\`;`,
 	},
 	hook: {
 		lang: "tsx",
-		code: `import { useSmoothCorners } from "@outpacelabs/squircle/react";
+		code: `import { useSmoothCorners } from "@outpacelabs/smooth/react";
 
 function Card() {
   // radius in px, smoothing 0 to 100 (default 60)

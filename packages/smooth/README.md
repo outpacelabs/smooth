@@ -1,4 +1,4 @@
-<h1 align="center">@outpacelabs/squircle</h1>
+<h1 align="center">@outpacelabs/smooth</h1>
 
 <p align="center">
   Figma-style corner smoothing (Apple squircles) that keeps your corner radius.
@@ -33,7 +33,7 @@ module imports don't.
 ## Install
 
 ```bash
-pnpm add @outpacelabs/squircle
+pnpm add @outpacelabs/smooth
 ```
 
 Zero dependencies. `react >= 18` is an optional peer, only needed for the
@@ -42,7 +42,7 @@ Zero dependencies. `react >= 18` is an optional peer, only needed for the
 ## Path generator (framework-agnostic)
 
 ```ts
-import { squirclePath } from "@outpacelabs/squircle";
+import { squirclePath } from "@outpacelabs/smooth";
 
 // SVG path data in border-box pixels. smoothing 0–1; 0.6 = Apple/Figma.
 const d = squirclePath({ width: 320, height: 200, radius: 20, smoothing: 0.6 });
@@ -58,7 +58,7 @@ element.style.clipPath = `path("${d}")`;   // or <path d={d} />, or new Path2D(d
 ## React hook
 
 ```tsx
-import { useSmoothCorners } from "@outpacelabs/squircle/react";
+import { useSmoothCorners } from "@outpacelabs/smooth/react";
 
 function Card() {
   // radius in px, smoothing 0–100 (default 60, the Apple/Figma target)

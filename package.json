@@ -1,5 +1,5 @@
 {
-	"name": "squircle",
+	"name": "smooth",
 	"version": "0.1.0",
 	"private": true,
 	"scripts": {
@@ -11,7 +11,7 @@
 	},
 	"dependencies": {
 		"@outpacelabs/audio": "github:outpacelabs/audio#path:packages/audio",
-		"@outpacelabs/squircle": "workspace:*",
+		"@outpacelabs/smooth": "workspace:*",
 		"geist": "^1.7.2",
 		"motion": "^12.38.0",
 		"next": "16.2.6",

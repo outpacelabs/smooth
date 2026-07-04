@@ -6,8 +6,8 @@ import {
 	tap as tapSound,
 	toggle as toggleSound,
 } from "@outpacelabs/audio";
-import { squirclePath } from "@outpacelabs/squircle";
-import { useSmoothCorners } from "@outpacelabs/squircle/react";
+import { squirclePath } from "@outpacelabs/smooth";
+import { useSmoothCorners } from "@outpacelabs/smooth/react";
 import { motion, useReducedMotion } from "motion/react";
 import {
 	type CSSProperties,
@@ -406,7 +406,7 @@ export function SmoothContent({
 
 	const snippets: Record<Tab, string> = {
 		css: `clip-path: path("${d}");`,
-		react: `import { useSmoothCorners } from "@outpacelabs/squircle/react";
+		react: `import { useSmoothCorners } from "@outpacelabs/smooth/react";
 
 // radius in px, smoothing 0-100 (60 = Apple)
 const ref = useSmoothCorners<HTMLDivElement>(${radius}${smoothing === 60 ? "" : `, ${smoothing}`});
@@ -478,7 +478,7 @@ const ref = useSmoothCorners<HTMLDivElement>(${radius}${smoothing === 60 ? "" : 
 					aria-live="polite"
 					onClick={() => {
 						void navigator.clipboard
-							?.writeText("pnpm add @outpacelabs/squircle")
+							?.writeText("pnpm add @outpacelabs/smooth")
 							.then(() => {
 								copySound();
 								setInstallCopied(true);
@@ -491,7 +491,7 @@ const ref = useSmoothCorners<HTMLDivElement>(${radius}${smoothing === 60 ? "" : 
 						{installCopied ? "✓" : "$"}
 					</span>
 					<span className="font-mono text-[13px] leading-5 text-(--ink)">
-						pnpm add @outpacelabs/squircle
+						pnpm add @outpacelabs/smooth
 					</span>
 				</button>
 			</motion.div>

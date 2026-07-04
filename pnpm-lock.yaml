@@ -11,9 +11,9 @@ importers:
       '@outpacelabs/audio':
         specifier: github:outpacelabs/audio#path:packages/audio
         version: https://codeload.github.com/outpacelabs/audio/tar.gz/a1e9ae1b4aca4ab4279c49478fe9ecd434df1b59#path:packages/audio(react@19.2.4)
-      '@outpacelabs/squircle':
+      '@outpacelabs/smooth':
         specifier: workspace:*
-        version: link:packages/squircle
+        version: link:packages/smooth
       geist:
         specifier: ^1.7.2
         version: 1.7.2(next@16.2.6(react-dom@19.2.4(react@19.2.4))(react@19.2.4))
@@ -52,7 +52,7 @@ importers:
         specifier: ^5
         version: 5.9.3
 
-  packages/squircle:
+  packages/smooth:
     devDependencies:
       '@types/react':
         specifier: ^19.2.10
