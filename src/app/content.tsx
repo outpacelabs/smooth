@@ -382,6 +382,14 @@ export function SmoothContent({
 	highlighted: Record<string, string>;
 }) {
 	const reduced = useReducedMotion() ?? false;
+	const [showTopFade, setShowTopFade] = useState(false);
+
+	useEffect(() => {
+		const onScroll = () => setShowTopFade(window.scrollY > 50);
+		onScroll();
+		window.addEventListener("scroll", onScroll, { passive: true });
+		return () => window.removeEventListener("scroll", onScroll);
+	}, []);
 	const [width, setWidth] = useState(320);
 	const [height, setHeight] = useState(320);
 	const [radius, setRadius] = useState(40);
@@ -431,12 +439,21 @@ const ref = useSmoothCorners<HTMLDivElement>(${radius}${smoothing === 60 ? "" : 
 
 	return (
 		<div className="flex min-h-screen flex-col items-center px-6 pb-24 pt-3">
+			{/* Top scroll fade — content slips under white, the header stays. */}
+			<div
+				className={`pointer-events-none fixed inset-x-0 top-0 z-[5] h-[80px] transition-opacity duration-300 ${
+					showTopFade ? "opacity-100" : "opacity-0"
+				}`}
+				style={{
+					background: "linear-gradient(to bottom, #fff 0%, transparent 100%)",
+				}}
+			/>
 			{/* Shiki blocks: our flat surface owns the background. */}
 			<style>{`.article-code .shiki{margin:0;padding:16px 18px;overflow-x:auto;line-height:1.65;background:transparent !important;font-family:var(--font-mono);font-size:13px}
 .article-code .shiki code{font-family:inherit;background:transparent;padding:0}`}</style>
 
 			{/* Header — brand mark left, GitHub pill right (glass nav type). */}
-			<header className="sticky top-4 z-10 flex w-full items-center justify-between rounded-[10px] bg-white/80 backdrop-blur-[12px]">
+			<header className="sticky top-4 z-10 flex w-full items-center justify-between rounded-[10px]">
 				<a
 					href="https://outpacestudios.com"
 					target="_blank"
