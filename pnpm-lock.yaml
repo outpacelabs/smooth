@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@outpacelabs/audio':
+        specifier: github:outpacelabs/audio#path:packages/audio
+        version: https://codeload.github.com/outpacelabs/audio/tar.gz/97cef7b816a9053df71595d810a9cc92693736d3#path:packages/audio(react@19.2.4)
       '@outpacelabs/squircle':
         specifier: workspace:*
         version: link:packages/squircle
@@ -432,6 +435,15 @@ packages:
     engines: {node: '>= 10'}
     cpu: [x64]
     os: [win32]
+
+  '@outpacelabs/audio@https://codeload.github.com/outpacelabs/audio/tar.gz/97cef7b816a9053df71595d810a9cc92693736d3#path:packages/audio':
+    resolution: {path: packages/audio, tarball: https://codeload.github.com/outpacelabs/audio/tar.gz/97cef7b816a9053df71595d810a9cc92693736d3}
+    version: 0.2.1
+    peerDependencies:
+      react: '>=18'
+    peerDependenciesMeta:
+      react:
+        optional: true
 
   '@rollup/rollup-android-arm-eabi@4.62.2':
     resolution: {integrity: sha512-6o7ZLZK+BeenkZCFNDXqpbjw9bD6nuWonvS/lwQJp7NoVVxm6p3qE7qQ5jGuBjiFsgvqjD8mZAU5oWxTmbOeOg==}
@@ -1458,6 +1470,10 @@ snapshots:
 
   '@next/swc-win32-x64-msvc@16.2.6':
     optional: true
+
+  '@outpacelabs/audio@https://codeload.github.com/outpacelabs/audio/tar.gz/97cef7b816a9053df71595d810a9cc92693736d3#path:packages/audio(react@19.2.4)':
+    optionalDependencies:
+      react: 19.2.4
 
   '@rollup/rollup-android-arm-eabi@4.62.2':
     optional: true

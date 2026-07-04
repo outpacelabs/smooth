@@ -10,6 +10,7 @@
 		"packages:build": "pnpm -r --filter \"./packages/**\" build"
 	},
 	"dependencies": {
+		"@outpacelabs/audio": "github:outpacelabs/audio#path:packages/audio",
 		"@outpacelabs/squircle": "workspace:*",
 		"geist": "^1.7.2",
 		"motion": "^12.38.0",

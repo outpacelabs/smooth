@@ -1,5 +1,6 @@
 "use client";
 
+import { confirm as confirmSound, toggle as toggleSound } from "@outpacelabs/audio";
 import { squirclePath } from "@outpacelabs/squircle";
 import { useSmoothCorners } from "@outpacelabs/squircle/react";
 import { motion, useReducedMotion } from "motion/react";
@@ -161,6 +162,7 @@ function naiveSuperellipsePath(size: number, r: number, s: number): string {
 /* Figure: the same 32px radius drawn three ways, with the circular arc
    overlaid in red as the reference. */
 function CornerFigure() {
+	const surfaceRef = useSmoothCorners<HTMLDivElement>(16);
 	const SIZE = 108;
 	const R = 32;
 	const circle = squirclePath({
@@ -178,7 +180,10 @@ function CornerFigure() {
 		},
 	];
 	return (
-		<div className="mt-[22px] flex flex-wrap justify-center gap-8 rounded-[16px] bg-(--surface) px-6 py-8">
+		<div
+			ref={surfaceRef}
+			className="mt-[22px] flex flex-wrap justify-center gap-8 rounded-[16px] bg-(--surface) px-6 py-8"
+		>
 			{tiles.map((t) => (
 				<figure key={t.label} className="m-0 flex flex-col items-center gap-3">
 					<div className="relative" style={{ width: SIZE, height: SIZE }}>
@@ -217,11 +222,17 @@ function CornerFigure() {
    the browser interpolates the clip on the compositor. */
 function PressDemo() {
 	const ref = useSmoothCorners<HTMLButtonElement>(28, 60, { press: 100 });
+	const surfaceRef = useSmoothCorners<HTMLDivElement>(16);
 	return (
-		<div className="mt-[22px] flex justify-center rounded-[16px] bg-(--surface) px-6 py-10">
+		<div
+			ref={surfaceRef}
+			className="mt-[22px] flex justify-center rounded-[16px] bg-(--surface) px-6 py-10"
+		>
 			<button
 				ref={ref}
 				type="button"
+				onPointerDown={() => toggleSound("on")}
+				onPointerUp={() => toggleSound("off")}
 				className="h-28 w-44 rounded-[28px] bg-(--shape) font-mono text-[13px] text-white/90 transition-transform motion-safe:active:scale-[0.97]"
 			>
 				hold me
@@ -362,6 +373,7 @@ export function SmoothContent({
 	const [outlines, setOutlines] = useState(false);
 	const [tab, setTab] = useState<Tab>("css");
 	const [copied, setCopied] = useState(false);
+	const [installCopied, setInstallCopied] = useState(false);
 
 	const stageRef = useSmoothCorners<HTMLDivElement>(20);
 	const panelRef = useSmoothCorners<HTMLDivElement>(20);
@@ -389,6 +401,7 @@ const ref = useSmoothCorners<HTMLDivElement>(${radius}${smoothing === 60 ? "" : 
 
 	const copy = () => {
 		void navigator.clipboard?.writeText(snippets[tab]).then(() => {
+			confirmSound();
 			setCopied(true);
 			window.setTimeout(() => setCopied(false), 1400);
 		});
@@ -445,15 +458,20 @@ const ref = useSmoothCorners<HTMLDivElement>(${radius}${smoothing === 60 ? "" : 
 				<button
 					type="button"
 					title="Copy install command"
+					aria-live="polite"
 					onClick={() => {
-						void navigator.clipboard?.writeText(
-							"pnpm add @outpacelabs/squircle",
-						);
+						void navigator.clipboard
+							?.writeText("pnpm add @outpacelabs/squircle")
+							.then(() => {
+								confirmSound();
+								setInstallCopied(true);
+								window.setTimeout(() => setInstallCopied(false), 1400);
+							});
 					}}
 					className="mt-3 flex h-12 items-center gap-3 rounded-full bg-(--chip) px-5 transition hover:bg-[rgba(23,23,23,0.08)] motion-safe:active:scale-[0.98]"
 				>
-					<span className="select-none font-mono text-[13px] leading-5 text-(--muted)">
-						$
+					<span className="w-3 select-none font-mono text-[13px] leading-5 text-(--muted)">
+						{installCopied ? "✓" : "$"}
 					</span>
 					<span className="font-mono text-[13px] leading-5 text-(--ink)">
 						pnpm add @outpacelabs/squircle
@@ -612,7 +630,7 @@ const ref = useSmoothCorners<HTMLDivElement>(${radius}${smoothing === 60 ? "" : 
 								key={t}
 								type="button"
 								onClick={() => setTab(t)}
-								className={`rounded-[6px] px-[7px] py-[3px] font-mono text-[11.76px] leading-[1.28] transition-colors ${
+								className={`relative rounded-[6px] px-[7px] py-[3px] font-mono text-[11.76px] leading-[1.28] transition-colors after:absolute after:-inset-1.5 after:content-[''] motion-safe:active:scale-95 ${
 									tab === t
 										? "bg-(--chip) text-(--ink)"
 										: "text-(--muted) hover:bg-(--chip) hover:text-[rgba(23,23,23,0.74)]"
@@ -624,7 +642,7 @@ const ref = useSmoothCorners<HTMLDivElement>(${radius}${smoothing === 60 ? "" : 
 						<button
 							type="button"
 							onClick={copy}
-							className={`ml-auto rounded-[6px] px-[7px] py-[3px] font-mono text-[11.76px] leading-[1.28] transition-colors ${
+							className={`relative ml-auto rounded-[6px] px-[7px] py-[3px] font-mono text-[11.76px] leading-[1.28] transition-colors after:absolute after:-inset-1.5 after:content-[''] motion-safe:active:scale-95 ${
 								copied ? "text-(--ink)" : "text-(--muted) hover:text-(--ink)"
 							}`}
 						>
