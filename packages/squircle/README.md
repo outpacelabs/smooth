@@ -67,6 +67,15 @@ function Card() {
 }
 ```
 
+Reactive corners: pass `press` and the corners soften to a second
+smoothing level while the pointer is down, springing back on release. The
+paths share one command structure, so the browser interpolates the clip
+natively on the compositor. Instant under `prefers-reduced-motion`.
+
+```tsx
+const ref = useSmoothCorners<HTMLButtonElement>(16, 60, { press: 100 });
+```
+
 The hook clips with `clip-path: path(...)` and regenerates on resize
 (ResizeObserver border-box size, so scale/translate entrance animations never
 skew the path). Keep the element's `border-radius` in CSS: it is the no-JS /

@@ -212,6 +212,24 @@ function CornerFigure() {
 	);
 }
 
+/* Pressable demo: hold it and the corners soften to full smoothing,
+   release and they spring back — the paths share one command structure, so
+   the browser interpolates the clip on the compositor. */
+function PressDemo() {
+	const ref = useSmoothCorners<HTMLButtonElement>(28, 60, { press: 100 });
+	return (
+		<div className="mt-[22px] flex justify-center rounded-[16px] bg-(--surface) px-6 py-10">
+			<button
+				ref={ref}
+				type="button"
+				className="h-28 w-44 rounded-[28px] bg-(--shape) font-mono text-[13px] text-white/90 transition-transform motion-safe:active:scale-[0.97]"
+			>
+				hold me
+			</button>
+		</div>
+	);
+}
+
 /* ── table of contents (glass, right gutter, dot hidden) ── */
 const TOC: { id: string; label: string }[] = [
 	{ id: "playground", label: "Playground" },
@@ -219,6 +237,7 @@ const TOC: { id: string; label: string }[] = [
 	{ id: "superellipse", label: "The superellipse trap" },
 	{ id: "math", label: "The actual geometry" },
 	{ id: "web", label: "On the web" },
+	{ id: "press", label: "Corners that respond" },
 	{ id: "caveats", label: "Caveats" },
 ];
 
@@ -721,6 +740,28 @@ const ref = useSmoothCorners<HTMLDivElement>(${radius}${smoothing === 60 ? "" : 
 								would intersect the shape back to the plain circle.
 							</P>
 							<Code html={highlighted.hook} />
+						</Col>
+					</section>
+
+					<section id="press" style={SECTION}>
+						<Col>
+							<H2>Corners that respond</H2>
+							<P>
+								The generated paths all share one command structure: a cubic,
+								an arc, a cubic per corner, at any smoothing above zero. Paths
+								with identical structure interpolate natively, and{" "}
+								<C>clip-path</C> animates on the compositor. Which means
+								smoothing is not just a static property; it can respond.
+							</P>
+							<PressDemo />
+							<P>
+								Pass <C>press</C> to the hook and the corners ease to a second
+								smoothing level while the pointer is down, then spring back on
+								release, like physical give. The radius never changes, so the
+								shape stays recognizably itself. The upcoming CSS{" "}
+								<C>corner-shape</C> property will make effects like this
+								native in a few years; the interpolating paths do it today.
+							</P>
 						</Col>
 					</section>
 

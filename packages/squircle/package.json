@@ -1,6 +1,6 @@
 {
 	"name": "@outpacelabs/squircle",
-	"version": "0.1.0",
+	"version": "0.2.0",
 	"description": "Figma-style corner smoothing (Apple squircles) that keeps your corner radius. Path generator + React clip-path hook.",
 	"keywords": [
 		"squircle",
