@@ -233,12 +233,12 @@ function PressDemo() {
 /* ── table of contents (glass, right gutter, dot hidden) ── */
 const TOC: { id: string; label: string }[] = [
 	{ id: "playground", label: "Playground" },
-	{ id: "circular", label: "The circular corner" },
+	{ id: "circular", label: "The crease" },
 	{ id: "superellipse", label: "The superellipse trap" },
-	{ id: "math", label: "The actual geometry" },
+	{ id: "math", label: "The geometry" },
 	{ id: "web", label: "On the web" },
 	{ id: "press", label: "Corners that respond" },
-	{ id: "caveats", label: "Caveats" },
+	{ id: "caveats", label: "Leave it alone" },
 ];
 
 const TOC_ITEM_H = 28;
@@ -437,9 +437,10 @@ const ref = useSmoothCorners<HTMLDivElement>(${radius}${smoothing === 60 ? "" : 
 					Corner smoothing that keeps your radius
 				</h1>
 				<p className="max-w-[520px] text-sm leading-[1.72] tracking-[0.1px] text-(--body) text-pretty">
-					Figma and Apple corners keep the circular arc at the apex and soften
-					only the edge transition. Tune it, compare it against plain{" "}
-					<C>border-radius</C>, and copy the code.
+					<C>border-radius</C> snaps from straight to curved at a single
+					point, and your eye reads the snap. This corner doesn&apos;t have
+					one. Tune it, press it, compare it against the circle, and copy the
+					code.
 				</p>
 				<button
 					type="button"
@@ -642,19 +643,20 @@ const ref = useSmoothCorners<HTMLDivElement>(${radius}${smoothing === 60 ? "" : 
 				<main>
 					<section id="circular" style={SECTION}>
 						<Col>
-							<H2>The circular corner</H2>
+							<H2>Every corner has a crease</H2>
 							<P>
 								<C>border-radius</C> rounds a corner with a quarter of a
-								circle. The edge runs perfectly straight, at zero curvature,
-								and at the exact point where the arc begins the curvature
-								jumps to <C>1/r</C>. Your eye reads that jump as a faint
-								crease: the outline stops feeling like one continuous line.
+								circle. The edge runs dead straight, at zero curvature, and at
+								the exact point the arc begins, curvature jumps to <C>1/r</C>.
+								Nothing in between. Your eye won&apos;t name it, but it reads
+								the jump as a faint crease, the place where one continuous
+								line quietly becomes two.
 							</P>
 							<P>
-								Apple has been sanding that crease off for years, on hardware,
-								on iOS icons, on the Dynamic Island. Figma shipped the same
-								idea as a slider called corner smoothing. The corner stays a
-								corner; the curvature just ramps up gradually instead of
+								Apple has been sanding that crease off for years, on hardware
+								rims, on icons, on the Dynamic Island. Figma shipped the same
+								move as a slider called corner smoothing. The corner stays a
+								corner. The curvature just arrives gradually instead of
 								switching on.
 							</P>
 						</Col>
@@ -664,19 +666,19 @@ const ref = useSmoothCorners<HTMLDivElement>(${radius}${smoothing === 60 ? "" : 
 						<Col>
 							<H2>The superellipse trap</H2>
 							<P>
-								The usual first attempt is a superellipse,{" "}
+								The first thing everyone reaches for is a superellipse,{" "}
 								<C>|x/r|&#8319; + |y/r|&#8319; = 1</C>, sampled into the
-								corner box. It produces a perfectly continuous curve, and it
-								quietly changes your design: inside the same r-by-r corner
-								box, a superellipse hugs the corner tighter than the circle
-								does. The apex creeps outward and a 20px radius reads closer
-								to 12.
+								corner box. In isolation it looks right: one continuous curve,
+								no crease. It also quietly redraws your design. Inside the
+								same r-by-r box, a superellipse hugs the corner tighter than
+								the circle does, so the apex creeps outward and a 20px radius
+								reads closer to 12. Same number, smaller corner.
 							</P>
 							<P>
 								We shipped that version first. Every corner on the site came
-								back visibly squarer, at the same nominal radius. The red
-								outline below is the plain circular arc; watch what each curve
-								does at the apex.
+								back squarer, at the same nominal radius. The red outline
+								below is the plain circular arc; watch what each curve does at
+								the apex.
 							</P>
 							<CornerFigure />
 						</Col>
@@ -684,60 +686,60 @@ const ref = useSmoothCorners<HTMLDivElement>(${radius}${smoothing === 60 ? "" : 
 
 					<section id="math" style={SECTION}>
 						<Col>
-							<H2>The actual geometry</H2>
+							<H2>Keep the arc, stretch the ease</H2>
 							<P>
-								The shape everyone is converging on, the one Figma describes
-								in{" "}
+								The shape Figma describes in{" "}
 								<A href="https://www.figma.com/blog/desperately-seeking-squircles/">
 									Desperately seeking squircles
-								</A>
-								, keeps the circular arc at your radius. What changes is its
+								</A>{" "}
+								keeps the circular arc, at your radius. What changes is its
 								sweep: 90&deg; with no smoothing, shrinking to{" "}
-								<C>90&deg;&nbsp;&middot;&nbsp;(1&nbsp;&minus;&nbsp;s)</C> at
-								smoothing <C>s</C>, while the transition into the edge
-								stretches to{" "}
+								<C>90&deg;&nbsp;&middot;&nbsp;(1&nbsp;&minus;&nbsp;s)</C> as
+								smoothing <C>s</C> rises, while the run-in from the straight
+								edge stretches to{" "}
 								<C>(1&nbsp;+&nbsp;s)&nbsp;&middot;&nbsp;r</C>. At 60%, the
 								value Figma equates with iOS, the arc keeps 36&deg; and the
-								ease consumes 1.6r of edge on either side. The apex sits
-								exactly on the circle, which is why the radius you chose is
-								the radius you see.
+								ease takes 1.6r of edge on either side. The apex sits exactly
+								on the circle. The radius you chose is the radius you see.
 							</P>
 							<P>
-								Our transition curve is an original construction: a single
-								cubic b&eacute;zier per side, solved in closed form from two
-								continuity constraints. Its first three control points stay
-								collinear on the edge, so the curve leaves the straight line
-								with zero curvature; at the other end its curvature is exactly{" "}
-								<C>1/r</C>, matching the circle it lands on. Both junctions are
-								G2-continuous, a step smoother than <C>border-radius</C>{" "}
-								itself, which is only G1. The geometry is enforced by property
-								tests: apex on the radius circle, tangency and curvature at
-								every junction, and a radius-first clamp when a small element
-								runs out of room.
+								Our transition is one cubic b&eacute;zier per side, solved in
+								closed form from two constraints. Its first three control
+								points stay collinear on the edge, so the curve leaves the
+								straight line with zero curvature; at the far end its
+								curvature is exactly <C>1/r</C>, the circle&apos;s own. Both
+								junctions are curvature-continuous, a step smoother than{" "}
+								<C>border-radius</C> itself, which only matches tangents. And
+								the geometry has to answer for itself: property tests hold the
+								apex to the radius circle, check tangency and curvature at
+								every junction, and clamp radius-first when a small element
+								runs out of room. No reference implementation, no parity
+								target.
 							</P>
 						</Col>
 					</section>
 
 					<section id="web" style={SECTION}>
 						<Col>
-							<H2>On the web</H2>
+							<H2>CSS can&apos;t say this shape</H2>
 							<P>
-								There is no CSS property for any of this. <C>border-radius</C>{" "}
-								only draws elliptical arcs, so the shape has to arrive as a
-								path: <C>clip-path: path()</C> on HTML, <C>d</C> on SVG,{" "}
-								<C>Path2D</C> on canvas. Paths are written in absolute pixels,
-								which means responsive elements need theirs regenerated
-								whenever they resize.
+								There is no property for it. <C>border-radius</C> only draws
+								elliptical arcs, so a smoothed corner has to arrive as a path:{" "}
+								<C>clip-path: path()</C> on HTML, <C>d</C> on SVG,{" "}
+								<C>Path2D</C> on canvas. Paths speak absolute pixels, which
+								means a responsive element needs its path regenerated every
+								time it resizes.
 							</P>
 							<Code html={highlighted.generator} />
 							<P>
-								The React hook handles that with a ResizeObserver, reading the
-								border-box size from the observer entry so scale and translate
-								animations never skew the geometry. Keep the element&apos;s{" "}
-								<C>border-radius</C> in CSS as the no-JS fallback; the hook
-								zeroes it once the clip applies, because the circular arc sits
-								inside the squircle along the transition and painting both
-								would intersect the shape back to the plain circle.
+								The hook does the regenerating with a ResizeObserver, reading
+								the border-box size off the observer entry so a scale or
+								translate mid-entrance never skews the geometry. Keep the
+								element&apos;s <C>border-radius</C> in CSS; it is the fallback
+								for the moment before JavaScript runs. The hook zeroes it as
+								the clip applies, because the circular arc sits inside the
+								squircle along the transition, and painting both would
+								intersect the shape right back to the plain circle.
 							</P>
 							<Code html={highlighted.hook} />
 						</Col>
@@ -747,40 +749,40 @@ const ref = useSmoothCorners<HTMLDivElement>(${radius}${smoothing === 60 ? "" : 
 						<Col>
 							<H2>Corners that respond</H2>
 							<P>
-								The generated paths all share one command structure: a cubic,
-								an arc, a cubic per corner, at any smoothing above zero. Paths
-								with identical structure interpolate natively, and{" "}
-								<C>clip-path</C> animates on the compositor. Which means
-								smoothing is not just a static property; it can respond.
+								Every path this generator emits shares one command structure:
+								a cubic, an arc, a cubic, four times over, at any smoothing
+								above zero. Paths with identical structure interpolate, and{" "}
+								<C>clip-path</C> animates on the compositor. So smoothing
+								doesn&apos;t have to be a constant. It can be a state.
 							</P>
 							<PressDemo />
 							<P>
-								Pass <C>press</C> to the hook and the corners ease to a second
-								smoothing level while the pointer is down, then spring back on
-								release, like physical give. The radius never changes, so the
-								shape stays recognizably itself. The upcoming CSS{" "}
-								<C>corner-shape</C> property will make effects like this
-								native in a few years; the interpolating paths do it today.
+								Pass <C>press</C> and the corners ease to a second smoothing
+								level while the pointer is down, then spring back on release,
+								like material giving under a finger. The radius never moves,
+								so the shape stays itself. Native CSS will get here
+								eventually; <C>corner-shape</C> is on its way and will make
+								this kind of response declarative in a few years. Interpolating
+								paths do it today.
 							</P>
 						</Col>
 					</section>
 
 					<section id="caveats" style={SECTION}>
 						<Col>
-							<H2>Caveats</H2>
+							<H2>Where to leave it alone</H2>
 							<P>
-								Smoothing only means something on rounded rectangles. A
-								capsule or a circle has no straight edge left to ease into, so
-								smoothing would square a pill&apos;s semicircular ends; Apple
-								keeps capsules true capsules, and so should you. Below roughly
-								8px of radius the circular-versus-smoothed deviation is
-								subpixel and not worth a ResizeObserver.
+								Smoothing only means something where a straight edge meets a
+								corner. A capsule or a circle has no straight edge left, so
+								smoothing would square a pill&apos;s ends; Apple keeps
+								capsules true capsules, and so should you. Below roughly 8px
+								of radius the deviation from the circle is subpixel, not worth
+								a ResizeObserver.
 							</P>
 							<P>
-								And because <C>clip-path</C> clips everything the element
-								paints, including its own <C>outline</C> and{" "}
-								<C>box-shadow</C>, draw focus rings on a child element, or
-								accept a little clipping at the corners.
+								And <C>clip-path</C> clips everything the element paints, its
+								own <C>outline</C> and <C>box-shadow</C> included. Draw focus
+								rings on a child, or accept a little clipping at the corners.
 							</P>
 							<div className="h-14" />
 						</Col>
