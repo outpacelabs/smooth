@@ -1,6 +1,11 @@
 "use client";
 
-import { confirm as confirmSound, toggle as toggleSound } from "@outpacelabs/audio";
+import {
+	confirm as confirmSound,
+	nudge as nudgeSound,
+	tap as tapSound,
+	toggle as toggleSound,
+} from "@outpacelabs/audio";
 import { squirclePath } from "@outpacelabs/squircle";
 import { useSmoothCorners } from "@outpacelabs/squircle/react";
 import { motion, useReducedMotion } from "motion/react";
@@ -9,6 +14,7 @@ import {
 	type ReactNode,
 	useEffect,
 	useMemo,
+	useRef,
 	useState,
 } from "react";
 import { useScrollSpy } from "./use-scroll-spy";
@@ -337,6 +343,7 @@ function Slider({
 	unit: string;
 	onChange: (v: number) => void;
 }) {
+	const lastTick = useRef(0);
 	return (
 		<label className="flex items-center gap-4">
 			<span className="w-24 text-sm text-(--muted)">{label}</span>
@@ -345,7 +352,16 @@ function Slider({
 				min={min}
 				max={max}
 				value={value}
-				onChange={(e) => onChange(+e.target.value)}
+				onChange={(e) => {
+					const v = +e.target.value;
+					// Detent blips, throttled so a drag ticks instead of buzzing.
+					const now = performance.now();
+					if (v !== value && now - lastTick.current > 90) {
+						lastTick.current = now;
+						nudgeSound(v > value ? "up" : "down");
+					}
+					onChange(v);
+				}}
 				className="flex-1"
 			/>
 			<output className="w-16 text-right font-mono text-[13px] tabular-nums text-(--ink)">
@@ -434,6 +450,7 @@ const ref = useSmoothCorners<HTMLDivElement>(${radius}${smoothing === 60 ? "" : 
 					href="https://github.com/outpacelabs/smooth"
 					target="_blank"
 					rel="noopener noreferrer"
+					onClick={() => tapSound()}
 					className="inline-flex items-center gap-1.5 rounded-full bg-(--chip) py-2.5 pl-3 pr-3.5 text-sm font-[550] leading-none text-(--ink) transition hover:bg-[rgba(23,23,23,0.08)] motion-safe:active:scale-[0.97]"
 				>
 					<GithubMark />
@@ -582,7 +599,10 @@ const ref = useSmoothCorners<HTMLDivElement>(${radius}${smoothing === 60 ? "" : 
 						<input
 							type="checkbox"
 							checked={outlines}
-							onChange={(e) => setOutlines(e.target.checked)}
+							onChange={(e) => {
+								setOutlines(e.target.checked);
+								toggleSound(e.target.checked ? "on" : "off");
+							}}
 						/>
 						compare against border-radius
 					</label>
@@ -595,7 +615,12 @@ const ref = useSmoothCorners<HTMLDivElement>(${radius}${smoothing === 60 ? "" : 
 								<button
 									key={s}
 									type="button"
-									onClick={() => setSmoothing(s)}
+									onClick={() => {
+										if (s !== smoothing) {
+											nudgeSound(s > smoothing ? "up" : "down");
+										}
+										setSmoothing(s);
+									}}
 									className="group flex flex-col items-center gap-1.5"
 								>
 									<span
@@ -629,7 +654,10 @@ const ref = useSmoothCorners<HTMLDivElement>(${radius}${smoothing === 60 ? "" : 
 							<button
 								key={t}
 								type="button"
-								onClick={() => setTab(t)}
+								onClick={() => {
+									if (t !== tab) tapSound();
+									setTab(t);
+								}}
 								className={`relative rounded-[6px] px-[7px] py-[3px] font-mono text-[11.76px] leading-[1.28] transition-colors after:absolute after:-inset-1.5 after:content-[''] motion-safe:active:scale-95 ${
 									tab === t
 										? "bg-(--chip) text-(--ink)"
