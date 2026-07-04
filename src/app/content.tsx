@@ -1,7 +1,7 @@
 "use client";
 
 import {
-	confirm as confirmSound,
+	copy as copySound,
 	nudge as nudgeSound,
 	tap as tapSound,
 	toggle as toggleSound,
@@ -417,7 +417,7 @@ const ref = useSmoothCorners<HTMLDivElement>(${radius}${smoothing === 60 ? "" : 
 
 	const copy = () => {
 		void navigator.clipboard?.writeText(snippets[tab]).then(() => {
-			confirmSound();
+			copySound();
 			setCopied(true);
 			window.setTimeout(() => setCopied(false), 1400);
 		});
@@ -480,7 +480,7 @@ const ref = useSmoothCorners<HTMLDivElement>(${radius}${smoothing === 60 ? "" : 
 						void navigator.clipboard
 							?.writeText("pnpm add @outpacelabs/squircle")
 							.then(() => {
-								confirmSound();
+								copySound();
 								setInstallCopied(true);
 								window.setTimeout(() => setInstallCopied(false), 1400);
 							});
