@@ -10,7 +10,7 @@ import {
 } from "@outpacelabs/audio";
 import { squirclePath } from "@outpacelabs/smooth";
 import { useSmoothCorners } from "@outpacelabs/smooth/react";
-import { ChevronDownIcon } from "@radix-ui/react-icons";
+import IconChevronDownSmall from "@central-icons-react/round-outlined-radius-2-stroke-1.5/IconChevronDownSmall";
 import { motion, useReducedMotion } from "motion/react";
 import {
 	type CSSProperties,
@@ -127,10 +127,9 @@ function LabsMenu() {
 				className="inline-flex items-center gap-1.5 rounded-full bg-(--chip) py-2.5 pl-3.5 pr-3 text-sm font-[550] leading-none text-(--ink) transition hover:bg-[rgba(23,23,23,0.08)] motion-safe:active:scale-[0.97]"
 			>
 				More
-				<ChevronDownIcon
+				<IconChevronDownSmall
 					aria-hidden="true"
-					width={13}
-					height={13}
+					size={13}
 					className={`transition-transform duration-200 ${menuOpen ? "rotate-180" : ""}`}
 				/>
 			</button>
